@@ -18,9 +18,7 @@ SIEM log analysis and alerting.
 
 Firewall rule configuration for securing communication.
 
-Log analysis and correlation for improved detection.
-
-Threat hunting techniques based on Sysmon and Wazuh logs.
+Log analysis for detecting suspicious activity.
 
 # Tools Used
 
@@ -42,9 +40,11 @@ PowerShell & SSH (Remote management and server access)
 
 MITRE ATT&CK Framework (Mapping detections to real-world attack techniques)
 
+SquareX (Used for receiving security email alerts)
+
 # Project Workflow
 
-1. Environment Setup
+### Environment Setup
 
 Deployed a Windows 10 Pro VM and installed Sysmon for advanced event logging.
 
@@ -56,7 +56,7 @@ Accessed the servers via SSH (ssh root@droplet_ip).
 
 Installed and configured Wazuh and TheHive on respective droplets.
 
-2. Wazuh Configuration
+### Wazuh Configuration
 
 Accessed Wazuh UI via Chrome (https://wazuh-ip).
 
@@ -76,7 +76,9 @@ Enabled archives in Filebeat for log storage.
 
 Created a new index in Wazuh for archive logs: wazuh-archives-**.
 
-3. Mimikatz Detection & Wazuh Rule Creation
+### Mimikatz Detection & Wazuh Rule Creation
+
+Excluded the Downloads folder from security to prevent interference.
 
 Installed Mimikatz on Windows.
 
@@ -84,13 +86,11 @@ Created a custom Wazuh rule to detect Mimikatz execution based on originalfilena
 
 Renamed Mimikatz executable and re-ran it to trigger detection.
 
-Mapped detection to MITRE ATT&CK Framework (Credential Dumping - T1003).
-
 Verified alerts in the Wazuh dashboard.
 
-Added correlation rules to detect multiple attempts over time.
+Mapped detection to MITRE ATT&CK (Credential Dumping - T1003).
 
-4. Security Automation with Shuffle
+### Security Automation with Shuffle
 
 Configured Shuffle automation workflow.
 
@@ -108,39 +108,33 @@ Configured email alerts via SquareX for real-time notifications.
 
 Automated case creation in TheHive based on severity.
 
-# Threat Hunting & Advanced Detection
+### Threat Detection & Alerting
 
-Log Correlation in Wazuh: Implemented log correlation to track events and identify suspicious activity patterns.
+Verified logs in Wazuh dashboard to ensure Mimikatz alerts were generated.
 
-Sysmon Event ID Filtering: Filtered Sysmon logs to reduce noise and improve detection accuracy.
+Ensured Shuffle received and processed the alerts.
 
-Custom Detection Rules:
+Confirmed that VirusTotal lookup returned hash reputation.
 
-Mimikatz Execution Detection: Created a rule to detect Mimikatz execution by tracking originalfilename.
+Checked that TheHive correctly received and stored the alert.
 
-Hash-Based Detection: Utilized VirusTotal API to integrate file hash-based IOC detection into Wazuh.
+Verified that SquareX email alert contained Mimikatz detection details.
 
-IOC-Based Detection: Integrated VirusTotal threat intelligence for hash-based detection, but additional feeds like AbuseIPDB and Hybrid Analysis were not integrated yet.
+# Troubleshooting & Adjustments
 
-# Troubleshooting & False Positive Handling
+### Issues Faced & Fixes:
 
-False Positives in Mimikatz Detection:
+1.Wazuh Logs Not Appearing:
 
-Fine-tuned the rule to avoid generic detections.
+Verified ossec.conf changes were saved and Wazuh Manager restarted.
 
-Modified originalfilename filter to detect behavior-based anomalies.
+Checked Filebeat logs for issues (sudo systemctl status filebeat).
 
-Shuffle Workflow Errors:
+2.Shuffle Webhook Issues:
 
-Ensure correct API keys are used.
+Ensured correct API keys were used.
 
-Validate regex captures for SHA256 hash extraction.
-
-Wazuh Logs Not Appearing:
-
-Verify ossec.conf changes are saved and Wazuh Manager is restarted.
-
-Check Filebeat logs for issues (sudo systemctl status filebeat).
+Validated regex captures for SHA256 hash extraction.
 
 # Results & Insights
 
@@ -152,15 +146,13 @@ Automated incident response via TheHive.
 
 Security alerting through Shuffle & Email notifications.
 
-Implemented log correlation for advanced attack detection.
-
 Mapped detection rules to MITRE ATT&CK for real-world relevance.
 
 # Future Improvements
 
-Expanding detection coverage for additional attack techniques (e.g., PowerShell exploitation, privilege escalation).
+Expanding detection coverage for additional attack techniques (PowerShell exploitation, privilege escalation).
 
-Integrating more threat intelligence sources like AbuseIPDB, Hybrid Analysis.
+Integrating more threat intelligence sources (AbuseIPDB, Hybrid Analysis).
 
 Automating SOC playbooks for better case response in TheHive.
 
