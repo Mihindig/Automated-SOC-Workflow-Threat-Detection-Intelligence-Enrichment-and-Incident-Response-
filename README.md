@@ -16,11 +16,17 @@ Threat intelligence enrichment using VirusTotal
 
 SIEM log analysis and alerting
 
+Firewall rule configuration for securing communication
+
+Log analysis and correlation for improved detection
+
+Threat hunting techniques based on Sysmon and Wazuh logs
+
 # Tools Used
 
 Windows 10 Pro VM (Endpoint for testing attacks)
 
-Sysmon (Windows event monitoring)
+Sysmon (Windows event monitoring and logging)
 
 Wazuh (SIEM for log collection and analysis)
 
@@ -30,90 +36,137 @@ Shuffle (Security automation and orchestration)
 
 VirusTotal API (Threat intelligence enrichment)
 
+DigitalOcean Droplets (Hosting Wazuh and TheHive servers)
+
+PowerShell & SSH (Remote management and server access)
+
+MITRE ATT&CK Framework (Mapping detections to real-world attack techniques)
+
 # Project Workflow
 
 1. Environment Setup
 
-Deployed a Windows 10 Pro VM and installed Sysmon for advanced logging.
+Deployed a Windows 10 Pro VM and installed Sysmon for advanced event logging.
 
-Created a firewall with specific rules for security.
+Configured a firewall with specific rules for network security.
 
-Deployed two Droplets (Wazuh and TheHive) and added them to the firewall.
+Created and configured two DigitalOcean droplets for Wazuh and TheHive.
 
-Accessed the servers via SSH from PowerShell.
+Accessed the servers via SSH (ssh root@droplet_ip).
 
-Installed and configured Wazuh and TheHive.
+Installed and configured Wazuh and TheHive on respective droplets.
 
 2. Wazuh Configuration
 
-Accessed Wazuh on Chrome using https://wazuh-ip.
+Accessed Wazuh UI via Chrome (https://wazuh-ip).
 
-Added credentials and configured a Wazuh Agent.
+Added credentials and configured a Wazuh agent.
 
-Created a backup of ossec.conf (cp /var/ossec/etc/ossec.conf ~/ossec-backup.conf).
+Created a backup of ossec.conf:
 
-Modified ossec.conf to capture Sysmon logs and changed logall and logall_json to yes.
+cp /var/ossec/etc/ossec.conf ~/ossec-backup.conf
 
-Restarted Wazuh Manager.
+Modified ossec.conf to capture Sysmon logs:
 
-Enabled archives in Filebeat.
+Enabled logall and logall_json.
 
-Created a new index in Wazuh: wazuh-archives-**.
+Restarted Wazuh Manager to apply changes.
+
+Enabled archives in Filebeat for log storage.
+
+Created a new index in Wazuh:
+
+wazuh-archives-**
 
 3. Mimikatz Detection & Wazuh Rule Creation
 
 Installed Mimikatz on Windows.
 
-Created a Wazuh rule to detect Mimikatz execution based on originalfilename.
+Created a custom Wazuh rule to detect Mimikatz execution based on originalfilename.
 
-Modified and executed a renamed Mimikatz binary to trigger detection.
+Renamed Mimikatz executable and re-ran it to trigger detection.
 
-Verified Wazuh alerts in the dashboard.
+Mapped detection to MITRE ATT&CK Framework (Credential Dumping - T1003).
+
+Verified alerts in the Wazuh dashboard.
+
+Added correlation rules to detect multiple attempts over time.
 
 4. Security Automation with Shuffle
 
-Configured Shuffle automation.
+Configured Shuffle automation workflow.
 
 Set up a Webhook in Shuffle and integrated it with Wazuh.
-
-Modified the change_me variable for alert handling.
 
 Configured regex capture for SHA256 hashes.
 
 Integrated VirusTotal API for threat intelligence.
 
-Retrieved threat reputation scores (Malicious: 67 detection in VirusTotal).
+Retrieved threat reputation scores (e.g., Malicious: 67 detections).
 
 Integrated TheHive API to automatically create alerts.
 
 Configured email alerts via SquareX for real-time notifications.
 
+Automated case creation in TheHive based on severity.
+
+# Threat Hunting & Advanced Detection
+
+Implemented log correlation in Wazuh to track attack chains.
+
+Used Sysmon Event ID filtering to reduce noise.
+
+Created additional detection rules for LSASS dumping, RDP brute force, and process injection.
+
+Implemented IOC-based detection using threat intelligence feeds.
+
+# Troubleshooting & False Positive Handling
+
+False Positives in Mimikatz Detection:
+
+Fine-tune the rule to avoid generic detections.
+
+Modify originalfilename filter to detect behavior-based anomalies.
+
+Shuffle Workflow Errors:
+
+Ensure correct API keys are used.
+
+Validate regex captures for SHA256 hash extraction.
+
+Wazuh Logs Not Appearing:
+
+Verify ossec.conf changes are saved and Wazuh Manager is restarted.
+
+Check Filebeat logs for issues (sudo systemctl status filebeat).
+
 # Results & Insights
 
-Successful detection of Mimikatz execution through Wazuh.
+Successfully detected Mimikatz execution via Wazuh.
 
-Automated threat enrichment using VirusTotal.
+Automated threat intelligence enrichment using VirusTotal.
 
 Incident response automation via TheHive.
 
 Security alerting through Shuffle & Email notifications.
 
+Implemented log correlation for advanced attack detection.
 
-Demonstrated SOC automation workflow for real-world threat detection.
+Mapped detection rules to MITRE ATT&CK for real-world relevance.
 
 # Future Improvements
 
-Implementing additional detection rules for other attack techniques.
+Expanding detection coverage for additional attack techniques (e.g., PowerShell exploitation, privilege escalation).
 
-Enhancing threat intelligence by integrating more APIs (AbuseIPDB, HybridAnalysis, etc.).
+Integrating more threat intelligence sources like AbuseIPDB, Hybrid Analysis.
 
-Automating case assignment in TheHive based on severity levels.
+Automating SOC playbooks for better case response in TheHive.
 
-Improving email alerts with more detailed forensic data.
+Enhancing email alerts with detailed forensic information.
 
 # Conclusion
 
-This project showcases a real-world SOC automation workflow, integrating SIEM, threat intelligence, and automated incident response. By leveraging Wazuh, TheHive, and Shuffle, this setup streamlines threat detection, enrichment, and response, significantly reducing manual effort in SOC operations.
+This project demonstrates a real-world SOC automation workflow by integrating SIEM, threat intelligence, and automated incident response. By leveraging Wazuh, TheHive, and Shuffle, this setup streamlines threat detection, enrichment, and response, reducing manual effort in SOC operations.
 
 # Screenshots
 
