@@ -6,21 +6,21 @@ This project automates SOC workflows using Wazuh for threat detection, TheHive f
 
 # Skills Demonstrated
 
-Threat detection and monitoring using Wazuh
+Threat detection and monitoring using Wazuh.
 
-Incident response and case management via TheHive
+Incident response and case management via TheHive.
 
-Security automation with Shuffle
+Security automation with Shuffle.
 
-Threat intelligence enrichment using VirusTotal
+Threat intelligence enrichment using VirusTotal.
 
-SIEM log analysis and alerting
+SIEM log analysis and alerting.
 
-Firewall rule configuration for securing communication
+Firewall rule configuration for securing communication.
 
-Log analysis and correlation for improved detection
+Log analysis and correlation for improved detection.
 
-Threat hunting techniques based on Sysmon and Wazuh logs
+Threat hunting techniques based on Sysmon and Wazuh logs.
 
 # Tools Used
 
@@ -74,9 +74,7 @@ Restarted Wazuh Manager to apply changes.
 
 Enabled archives in Filebeat for log storage.
 
-Created a new index in Wazuh:
-
-wazuh-archives-**
+Created a new index in Wazuh for archive logs: wazuh-archives-**.
 
 3. Mimikatz Detection & Wazuh Rule Creation
 
@@ -100,7 +98,7 @@ Set up a Webhook in Shuffle and integrated it with Wazuh.
 
 Configured regex capture for SHA256 hashes.
 
-Integrated VirusTotal API for threat intelligence.
+Integrated VirusTotal API for threat intelligence enrichment.
 
 Retrieved threat reputation scores (e.g., Malicious: 67 detections).
 
@@ -112,21 +110,25 @@ Automated case creation in TheHive based on severity.
 
 # Threat Hunting & Advanced Detection
 
-Implemented log correlation in Wazuh to track attack chains.
+Log Correlation in Wazuh: Implemented log correlation to track events and identify suspicious activity patterns.
 
-Used Sysmon Event ID filtering to reduce noise.
+Sysmon Event ID Filtering: Filtered Sysmon logs to reduce noise and improve detection accuracy.
 
-Created additional detection rules for LSASS dumping, RDP brute force, and process injection.
+Custom Detection Rules:
 
-Implemented IOC-based detection using threat intelligence feeds.
+Mimikatz Execution Detection: Created a rule to detect Mimikatz execution by tracking originalfilename.
+
+Hash-Based Detection: Utilized VirusTotal API to integrate file hash-based IOC detection into Wazuh.
+
+IOC-Based Detection: Integrated VirusTotal threat intelligence for hash-based detection, but additional feeds like AbuseIPDB and Hybrid Analysis were not integrated yet.
 
 # Troubleshooting & False Positive Handling
 
 False Positives in Mimikatz Detection:
 
-Fine-tune the rule to avoid generic detections.
+Fine-tuned the rule to avoid generic detections.
 
-Modify originalfilename filter to detect behavior-based anomalies.
+Modified originalfilename filter to detect behavior-based anomalies.
 
 Shuffle Workflow Errors:
 
@@ -146,7 +148,7 @@ Successfully detected Mimikatz execution via Wazuh.
 
 Automated threat intelligence enrichment using VirusTotal.
 
-Incident response automation via TheHive.
+Automated incident response via TheHive.
 
 Security alerting through Shuffle & Email notifications.
 
@@ -167,6 +169,7 @@ Enhancing email alerts with detailed forensic information.
 # Conclusion
 
 This project demonstrates a real-world SOC automation workflow by integrating SIEM, threat intelligence, and automated incident response. By leveraging Wazuh, TheHive, and Shuffle, this setup streamlines threat detection, enrichment, and response, reducing manual effort in SOC operations.
+
 
 # Screenshots
 
