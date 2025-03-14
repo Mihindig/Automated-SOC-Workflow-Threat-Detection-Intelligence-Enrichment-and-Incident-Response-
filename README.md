@@ -115,7 +115,7 @@ Improving email alerts with more detailed forensic data.
 
 This project showcases a real-world SOC automation workflow, integrating SIEM, threat intelligence, and automated incident response. By leveraging Wazuh, TheHive, and Shuffle, this setup streamlines threat detection, enrichment, and response, significantly reducing manual effort in SOC operations.
 
-# SCcreenshots
+# Screenshots
 
 # ossec-backup.conf and ossec.conf modification in Program Files (x86) - OSSEC-Agent.
 
