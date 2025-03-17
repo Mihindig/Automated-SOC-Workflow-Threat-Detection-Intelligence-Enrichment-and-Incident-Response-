@@ -237,6 +237,7 @@ This project demonstrates a real-world SOC automation workflow by integrating SI
 ### https://github.com/olafhartong/sysmon-modular
 ### https://www.digitalocean.com
 ### https://www.virustotal.com
+### https://github.com/tchapi/markdown-cheatsheet/blob/master/README.md
 
 # License:
 © Mihindig 2025. All rights reserved.
